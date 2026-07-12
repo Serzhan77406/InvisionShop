@@ -134,20 +134,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5173",
-    
 ]
 
-# Required if you are sending cookies or session-based authentication
-CORS_ALLOW_CREDENTIALS = True 
-CORS_ALLOW_ALL_ORIGINS = True
+# Удалите или закомментируйте строку CORS_ALLOW_ALL_ORIGINS = True
 
-# Exempt local Vite frontend from Django's CSRF Referer checking
+# Оставляем true, если фронтенд передает куки или токены
+CORS_ALLOW_CREDENTIALS = True 
+
+# Достаточно оставить только точные адреса вашего фронтенда
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5173",
-    'https://*.localhost',
-    'http://*.localhost',
-    'https://*',
-    'http://*',
-   
 ]
