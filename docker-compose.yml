@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # 1. База данных PostgreSQL
+  db:
+    image: postgres:16-alpine
+    container_name: django_db
+    environment:
+      - POSTGRES_DB=django_db
+      - POSTGRES_USER=Admin
+      - POSTGRES_PASSWORD=1234
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  # 2. Бэкенд Django
+  backend:
+    build: ./backend
+    container_name: django_backend
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8001"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8001:8001"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=django_db
+      - DB_USER=Admin
+      - DB_PASSWORD=1234
+      - DB_PORT=5432
+    depends_on:
+      - db
+
+  # 3. Фронтенд React + Vite + TS
+  frontend:
+    build: ./frontend/front
+    container_name: react_frontend
+    volumes:
+      - ./frontend/front:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
