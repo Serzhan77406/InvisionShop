@@ -4,7 +4,7 @@ services:
   # 1. База данных PostgreSQL
   db:
     image: postgres:16-alpine
-    container_name: django_db
+    container_name: django_db1
     environment:
       - POSTGRES_DB=django_db
       - POSTGRES_USER=Admin
@@ -17,7 +17,7 @@ services:
   # 2. Бэкенд Django
   backend:
     build: ./backend
-    container_name: django_backend
+    container_name: django_backend1
     command: >
       sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8001"
@@ -37,7 +37,7 @@ services:
   # 3. Фронтенд React + Vite + TS
   frontend:
     build: ./frontend/front
-    container_name: react_frontend
+    container_name: react_frontend1
     volumes:
       - ./frontend/front:/app
       - /app/node_modules
