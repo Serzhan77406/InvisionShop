@@ -26,6 +26,7 @@ class RegisterAPIView(APIView):
                     "id": user.id,
                     "username": user.username,
                     "email": user.email,
+                    "role": user.role,
                 },
                 "access": str(refresh.access_token),
                 "refresh": str(refresh),
@@ -44,6 +45,7 @@ class MeAPIView(APIView):
                 "id": user.id,
                 "username": user.username,
                 "email": user.email,
+                "role": user.role,
             }
         )
 

@@ -77,7 +77,7 @@ DATABASES = {
         'USER': os.environ.get('DB_USER', 'Admin'),
         'PASSWORD': os.environ.get('DB_PASSWORD', '1234'),
         'HOST': os.environ.get('DB_HOST', 'db'),  # Внутри Docker-сети хостом является имя сервиса 'db'
-        'PORT': os.environ.get('DB_PORT', '5433'), # Внутренний порт PostgreSQL в контейнере
+        'PORT': os.environ.get('DB_PORT', '5432'), # Внутренний порт PostgreSQL в контейнере
     }
 }
 
@@ -156,3 +156,6 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5173",
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

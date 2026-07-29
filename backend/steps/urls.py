@@ -1,7 +1,10 @@
-from django.urls import path
-from .views import StepListAPIView, StepDetailAPIView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import StepViewSet
+
+router = DefaultRouter()
+router.register(r'steps', StepViewSet, basename='step')
 
 urlpatterns = [
-    path('', StepListAPIView.as_view(), name='api_step_list'),
-    path('<int:pk>/', StepDetailAPIView.as_view(), name='api_step_detail'),    
+    path('', include(router.urls)),
 ]
