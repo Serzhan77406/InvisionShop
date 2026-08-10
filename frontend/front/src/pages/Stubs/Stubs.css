@@ -1,0 +1,50 @@
+.stub-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.stub-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  max-width: 500px;
+  width: 100%;
+  border: 1px dashed #ced4da;
+}
+
+.stub-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.stub-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 12px;
+}
+
+.stub-subtitle {
+  font-size: 15px;
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.btn-back-home {
+  display: inline-block;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.btn-back-home:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
