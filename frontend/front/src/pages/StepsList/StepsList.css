@@ -1,0 +1,93 @@
+.steps-page {
+  padding: 20px 0;
+}
+
+.page-subtitle {
+  text-align: center;
+  color: #6c757d;
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.step-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-left: 5px solid #ffc107; /* По умолчанию желтый — в процессе */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.step-card.completed {
+  border-left-color: #28a745; /* Зеленый для выполненных */
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.step-number {
+  font-weight: 700;
+  color: #007bff;
+  font-size: 14px;
+  text-transform: uppercase;
+  background-color: #e6f2ff;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.step-status-badge {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.step-card-title {
+  font-size: 18px;
+  color: #212529;
+  margin-bottom: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.step-card-desc {
+  font-size: 14px;
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.btn-details {
+  font-size: 14px;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.loading-spinner, .error-message-box {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.error-message-box {
+  color: #dc3545;
+}
