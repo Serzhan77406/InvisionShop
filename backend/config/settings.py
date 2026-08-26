@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     "accounts",
     'steps',
     'objects',
+    'calculator',
+    'documents',
 ]
 
 MIDDLEWARE = [

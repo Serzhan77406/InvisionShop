@@ -11,7 +11,7 @@
 // }
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home';
+import './home.css';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export const Home: React.FC = () => {
     <div className="home-container">
       {/* Главный блок (Hero Section) */}
       <section className="hero-section">
-        <h1 className="hero-title">Узакони пристройку к таунхаусу</h1>
+        <h1 className="hero-title">Узаконить пристройку к таунхаусу</h1>
         <p className="hero-subtitle">
           Профессиональный онлайн-сервис для быстрой и легальной регистрации изменений 
           в планировке, террас и пристроек любой сложности.

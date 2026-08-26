@@ -1,14 +1,19 @@
 import { type FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { saveTokens } from "../api";
 
-const API_URL = "http://localhost:8001/api/auth/login/";
+// Убедитесь, что этот адрес совпадает с вашим urls.py
+const API_URL = "http://localhost:8001/api/accounts/auth/login/";
+
+function saveTokens(accessToken: string, refreshToken: string) {
+  // ИСПРАВЛЕНО: Ключи приведены к единому стандарту со змейкой_
+  localStorage.setItem("access_token", accessToken);
+  localStorage.setItem("refresh_token", refreshToken);
+}
 
 export default function LoginPage() {
   const navigate = useNavigate();
   
-  // Инициализируем строки пустыми значениями
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -22,15 +27,16 @@ export default function LoginPage() {
     try {
       const response = await axios.post(API_URL, { username, password });
       
-      // Сохраняем токены и перенаправляем пользователя
+      // Сохраняем токены
       saveTokens(response.data.access, response.data.refresh);
-      navigate("/notes");
+      
+      // ИСПРАВЛЕНО: Перенаправляем в кабинет, а не в несуществующие заметки
+      navigate("/cabinet");
     } catch (err) {
-      // Проверяем, есть ли ответ от сервера с текстом ошибки
       if (axios.isAxiosError(err) && err.response?.data?.detail) {
         setError(err.response.data.detail);
       } else {
-        setError("Неверный логин или пароль");
+        setError("Неверное имя пользователя или пароль");
       }
     } finally {
       setIsLoading(false);
@@ -38,12 +44,13 @@ export default function LoginPage() {
   }
 
   return (
-    <main style={{ maxWidth: 420, margin: "40px auto", fontFamily: "sans-serif" }}>
-      <h1>Вход</h1>
+    <main style={{ maxWidth: 420, margin: "40px auto", fontFamily: "sans-serif", padding: "20px" }}>
+      <h1>Вход в систему</h1>
       
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: 12 }}>
           <input
+            style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
             type="text"
             placeholder="Имя пользователя"
             value={username}
@@ -55,6 +62,7 @@ export default function LoginPage() {
         
         <div style={{ marginBottom: 12 }}>
           <input
+            style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
             type="password"
             placeholder="Пароль"
             value={password}
@@ -64,14 +72,18 @@ export default function LoginPage() {
           />
         </div>
         
-        <button type="submit" disabled={isLoading}>
+        <button 
+          type="submit" 
+          disabled={isLoading}
+          style={{ width: "100%", padding: "12px", backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
+        >
           {isLoading ? "Вход..." : "Войти"}
         </button>
       </form>
 
-      {error && <p style={{ color: "crimson" }}>{error}</p>}
+      {error && <p style={{ color: "crimson", marginTop: 12 }}>{error}</p>}
       
-      <p>
+      <p style={{ marginTop: 15 }}>
         Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
       </p>
     </main>

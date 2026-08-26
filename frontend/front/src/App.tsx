@@ -132,14 +132,54 @@
 
 // export default App;
 
+// import React from 'react';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import { Layout } from './components/Layout/Layout';
+// import { Home } from './pages/Home/home';
+// import { StepsList } from './pages/StepsList/StepsList';
+// import { StepDetail } from './pages/StepDetail/StepDetail';
+// import { CalculatorPage, FAQPage, LegalPage, RegisterPage } from './pages/Stubs/Stubs';
+// import './components/Layout/Layout';
+// import LoginPage from './pages/LoginPage/LoginPage';
+
+// function App() {
+//   return (
+//     <Router>
+//       <Layout>
+//         <Routes>
+//           <Route path="/" element={<Home />} />
+//           <Route path="/steps" element={<StepsList />} />
+//           <Route path="/steps/:id" element={<StepDetail />} />
+//           <Route path="/calculator" element={<CalculatorPage />} />
+//           <Route path="/faq" element={<FAQPage />} />
+//           <Route path="/laws" element={<LegalPage />} />
+//           <Route path="/register" element={<RegisterPage />} />
+//           {/* Страница логина (временно заглушка) */}
+//           <Route path="/auth/login" element={<LoginPage />} />
+//         </Routes>
+//       </Layout>
+//     </Router>
+//   );
+// }
+
+// exporCalculatorPage, t default App;
+
 import React from 'react';
+import { FAQPage, LegalPage } from './pages/Stubs/Stubs';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout } from './components/Layout';
-import { Home } from './pages/Home/Home';
+import { Layout } from './components/Layout/Layout';
+import { Home } from './pages/Home/home';
 import { StepsList } from './pages/StepsList/StepsList';
 import { StepDetail } from './pages/StepDetail/StepDetail';
-import { CalculatorPage, FAQPage, LegalPage, RegisterPage } from './pages/Stubs/Stubs';
-import './components/Layout';
+// ИСПРАВЛЕНО: Убрали RegisterPage из заглушек
+import CalculatorPage from './pages/Calculator/CalculatorPage'; // Импортируем полноценный компонент
+import LoginPage from './pages/LoginPage/LoginPage';
+// ДОБАВЛЕНО: Импортируем вашу настоящую рабочую страницу регистрации
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import Cabinet from './pages/Cabinet/Cabinet'; // Импортируем компонент 
+import ConsentWizard from './pages/Documents/ConsentWizard';
+
 
 function App() {
   return (
@@ -152,9 +192,22 @@ function App() {
           <Route path="/calculator" element={<CalculatorPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/laws" element={<LegalPage />} />
+          <Route path="/cabinet" element={<Cabinet />} />
+          <Route path="/documents/consent" element={<ConsentWizard />} />
+          
+          {/* ИСПРАВЛЕНО: Теперь открывается реальная форма регистрации */}
           <Route path="/register" element={<RegisterPage />} />
-          {/* Страница логина (временно заглушка) */}
-          <Route path="/auth/login" element={<h1>Страница входа скоро появится</h1>} />
+          
+          {/* ИСПРАВЛЕНО: Путь изменен на /login, чтобы совпадать с кнопкой из Header */}
+          <Route path="/login" element={<LoginPage />} />
+          
+          {/* ЗАГЛУШКА ДЛЯ СЛЕДУЮЩЕГО ШАГА: Личный кабинет */}
+          <Route path="/cabinet" element={
+            <main style={{ padding: "20px", textAlign: "center" }}>
+              <h1>Личный кабинет</h1>
+              <p>Добро пожаловать! Раздел в процессе привязки к ролям.</p>
+            </main>
+          } />
         </Routes>
       </Layout>
     </Router>
@@ -162,5 +215,6 @@ function App() {
 }
 
 export default App;
+
 
 
