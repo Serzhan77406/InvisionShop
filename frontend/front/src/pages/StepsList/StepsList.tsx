@@ -30,7 +30,7 @@ export const StepsList: React.FC = () => {
     api.get<Step[]>('/steps/')
       .then((response) => {
         // Сортируем шаги по ID, чтобы они шли по порядку от 1 до 7
-        const sortedSteps = response.data.sort((a, b) => a.id - b.b);
+        const sortedSteps = response.data.sort((a, b) => a.id - b.id);
         setSteps(sortedSteps);
         setLoading(false);
       })

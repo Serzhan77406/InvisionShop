@@ -1,4 +1,5 @@
 import React from 'react';
+import './Layout.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 interface LayoutProps {
@@ -26,15 +27,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <header className="main-header">
         <div className="header-container">
           <Link to="/" className="logo">
-            Invision<span>Shop</span>
+            Light <span>House</span>
           </Link>
           
           <nav className="main-nav">
             <Link to="/">Главная</Link>
-            <Link to="/steps">7 шагов</Link>
-            <Link to="/calculator">Калькулятор</Link>
-            <Link to="/faq">FAQ</Link>
-            <Link to="/laws">Законы</Link>
+            <Link to="/steps">   7 шагов</Link>
+            <Link to="/calculator">   Калькулятор</Link>
+            <Link to="/faq">   FAQ</Link>
+            <Link to="/laws">   Законы</Link>
           </nav>
 
           <div className="auth-zone">
@@ -44,7 +45,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <button onClick={handleLogout} className="btn-logout">Выйти</button>
               </div>
             ) : (
-              <Link to="/auth/login" className="btn-login">Войти</Link>
+              <Link to="/login" className="btn-login">Войти</Link>
             )}
           </div>
         </div>

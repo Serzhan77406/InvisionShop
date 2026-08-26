@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Stubs.css';
+import './Stubs.css'; // Подключаем CSS для стилизации заглушек
 
 // Общая обертка для создания красивого центрированного контента
 const StubWrapper: React.FC<{ icon: string; title: string; subtitle: string }> = ({ icon, title, subtitle }) => (
@@ -14,13 +14,13 @@ const StubWrapper: React.FC<{ icon: string; title: string; subtitle: string }> =
   </div>
 );
 
-export const CalculatorPage: React.FC = () => (
-  <StubWrapper 
-    icon="🧮" 
-    title="Калькулятор стоимости" 
-    subtitle="Модуль расчета госпошлин и услуг кадастровых инженеров скоро появится." 
-  />
-);
+// export const CalculatorPage: React.FC = () => (
+//   <StubWrapper 
+//     icon="🧮" 
+//     title="Калькулятор стоимости" 
+//     subtitle="Модуль расчета госпошлин и услуг кадастровых инженеров скоро появится." 
+//   />
+// );
 
 export const FAQPage: React.FC = () => (
   <StubWrapper 

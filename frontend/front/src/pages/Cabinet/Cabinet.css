@@ -1,0 +1,106 @@
+.cabinet-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+
+.cabinet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #f1f3f5;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.cabinet-header h1 {
+  font-size: 28px;
+  color: #212529;
+  margin: 0;
+}
+
+.user-info-badge {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 15px;
+  color: #495057;
+}
+
+.role-tag {
+  background-color: #e9ecef;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+/* Блоки секций */
+.cabinet-section h2 {
+  font-size: 22px;
+  color: #212529;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+/* Специфика для клиента */
+.btn-create-property {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+.btn-create-property:hover {
+  background-color: #0056b3;
+}
+
+.objects-empty-state {
+  margin-top: 25px;
+  padding: 40px;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  text-align: center;
+  color: #6c757d;
+  font-size: 15px;
+  background-color: #f8f9fa;
+}
+
+/* Специфика заглушек эксперта и админа */
+.expert-section {
+  border-left: 5px solid #17a2b8;
+  background-color: #f4fbfd;
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+}
+
+.admin-section {
+  border-left: 5px solid #dc3545;
+  background-color: #fdf5f5;
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+}
+
+.section-notice {
+  color: #495057;
+  line-height: 1.6;
+  font-size: 15px;
+  margin: 0;
+}
+
+.cabinet-loading {
+  text-align: center;
+  padding: 60px;
+  font-size: 18px;
+  color: #6c757d;
+}

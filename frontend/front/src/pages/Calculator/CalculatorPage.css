@@ -1,0 +1,163 @@
+.calculator-page-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.calc-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #212529;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.calc-subtitle {
+  text-align: center;
+  color: #6c757d;
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.calc-layout {
+  display: flex;
+  gap: 40px;
+  flex-direction: column;
+}
+
+@media (min-width: 900px) {
+  .calc-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .calc-form { flex: 1; }
+  .calc-results-panel { flex: 1; }
+}
+
+/* Форма и инпуты */
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 12px;
+}
+
+.form-group input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* Сетка чекбоксов */
+.checkbox-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #495057;
+}
+
+.checkbox-label input {
+  margin-top: 4px;
+}
+
+.checkbox-text small {
+  color: #007bff;
+  font-weight: 500;
+}
+
+.btn-calc-submit {
+  width: 100%;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-calc-submit:hover { background-color: #0056b3; }
+
+/* Таблица результатов */
+.calc-results-panel h2 {
+  font-size: 22px;
+  margin-top: 0;
+  color: #212529;
+  margin-bottom: 20px;
+}
+
+.calc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+}
+
+.calc-table th, .calc-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 14px;
+}
+
+.calc-table th {
+  background-color: #f1f3f5;
+  color: #495057;
+  font-weight: 600;
+}
+
+.table-total-row td {
+  border-top: 2px solid #212529;
+  font-size: 16px;
+  color: #28a745;
+}
+
+/* Кнопка вызова и уведомление */
+.calc-warning-notice {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #ffeeba;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.btn-call-engineer {
+  width: 100%;
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-call-engineer:hover { background-color: #218838; }
+.calc-error-box { color: #dc3545; margin-top: 15px; font-weight: 500; }
+.calc-status { text-align: center; padding: 50px; font-size: 18px; color: #6c757d; }

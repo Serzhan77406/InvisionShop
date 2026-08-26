@@ -1,0 +1,13 @@
+.wizard-page { max-width: 600px; margin: 0 auto; padding: 20px 0; }
+.wizard-steps-indicator { display: flex; justify-content: space-between; margin-bottom: 30px; background: #e9ecef; padding: 10px; border-radius: 6px; }
+.wizard-steps-indicator span { color: #6c757d; font-weight: 500; font-size: 14px; }
+.wizard-steps-indicator span.active { color: #007bff; font-weight: 700; }
+.wizard-card { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.wizard-step h2 { font-size: 20px; margin-top: 0; margin-bottom: 20px; color: #212529; }
+.wizard-step input, .wizard-step textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ced4da; border-radius: 6px; box-sizing: border-box; }
+.wizard-step textarea { height: 100px; resize: vertical; }
+.wizard-buttons { display: flex; justify-content: space-between; gap: 15px; }
+.btn-next, .btn-download-pdf { background: #007bff; color: #fff; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+.btn-prev { background: #6c757d; color: #fff; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; }
+.btn-download-pdf { background: #28a745; width: 100%; }
+.btn-download-pdf:disabled { background: #a7e1b5; }
