@@ -179,7 +179,8 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import Cabinet from './pages/Cabinet/Cabinet'; // Импортируем компонент 
 import ConsentWizard from './pages/Documents/ConsentWizard';
-
+import RequestMeetingPage from './pages/Cabinet/RequestMeetingPage';
+import OrderSuccessPage from './pages/Cabinet/OrderSuccessPage';
 
 function App() {
   return (
@@ -194,6 +195,8 @@ function App() {
           <Route path="/laws" element={<LegalPage />} />
           <Route path="/cabinet" element={<Cabinet />} />
           <Route path="/documents/consent" element={<ConsentWizard />} />
+          <Route path="/cabinet/request-meeting" element={<RequestMeetingPage />} />
+          <Route path="/cabinet/order-success" element={<OrderSuccessPage />} />
           
           {/* ИСПРАВЛЕНО: Теперь открывается реальная форма регистрации */}
           <Route path="/register" element={<RegisterPage />} />
