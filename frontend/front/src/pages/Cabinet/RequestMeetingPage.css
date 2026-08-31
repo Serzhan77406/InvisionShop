@@ -1,0 +1,70 @@
+.request-meeting-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  max-width: 650px;
+  margin: 30px auto;
+}
+
+.request-subtitle {
+  color: #6c757d;
+  margin-bottom: 30px;
+  font-size: 15px;
+}
+
+.request-form .form-group {
+  margin-bottom: 20px;
+}
+
+.request-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #343a40;
+}
+
+.request-form input, .request-form textarea, .request-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+.request-form textarea {
+  height: 80px;
+  resize: vertical;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.btn-submit-request {
+  width: 100%;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.btn-submit-request:hover {
+  background-color: #0056b3;
+}
+
+.request-error {
+  color: #dc3545;
+  margin-top: 15px;
+  font-weight: 500;
+  text-align: center;
+}

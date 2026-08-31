@@ -1,0 +1,60 @@
+.success-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.success-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.06);
+  max-width: 500px;
+  width: 100%;
+}
+
+.success-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.success-card h1 {
+  font-size: 26px;
+  color: #28a745;
+  margin-bottom: 15px;
+}
+
+.status-notice-box {
+  background-color: #e8f4fd;
+  color: #1c577a;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 15px;
+  margin: 20px 0;
+  border: 1px solid #bee5eb;
+}
+
+.success-desc {
+  font-size: 14px;
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.btn-back-cabinet {
+  background-color: #6c757d;
+  color: #ffffff;
+  border: none;
+  padding: 12px 25px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-back-cabinet:hover {
+  background-color: #5a6268;
+}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ДОБАВЛЕНО: хук для перенаправления путей
 import axios from 'axios';
 import './CalculatorPage.css';
 
@@ -23,6 +24,8 @@ interface CalculationResult {
 }
 
 export default function CalculatorPage() {
+  const navigate = useNavigate(); // ДОБАВЛЕНО: инициализация хука навигации
+  
   // Состояния для тарифов (услуг) с бэкенда
   const [tariffs, setTariffs] = useState<Tariff[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -83,6 +86,14 @@ export default function CalculatorPage() {
     } finally {
       setIsCalculating(false);
     }
+  };
+
+  // ДОБАВЛЕНО: Обработчик клика по кнопке вызова инженера
+  const handleCallEngineerClick = () => {
+    // Сохраняем площадь в localStorage, чтобы следующая страница автоматически её подставила
+    localStorage.setItem('last_calculated_area', area);
+    // Перенаправляем пользователя на страницу формы вызова инженера (Шаг 4.4)
+    navigate('/cabinet/request-meeting');
   };
 
   if (loading) return <div className="calc-status">Загрузка модулей калькулятора...</div>;
@@ -168,10 +179,11 @@ export default function CalculatorPage() {
               ℹ️ <strong>Расчёт предварительный.</strong> Точная стоимость — после осмотра инженером.
             </div>
 
-            {/* КНОПКА ВЫЗОВА ИНЖЕНЕРА (ЗАГЛУШКА) */}
+            {/* ИСПРАВЛЕНО: Кнопка-заглушка заменена на вызов обработчика с перенаправлением */}
             <button 
+              type="button"
               className="btn-call-engineer" 
-              onClick={() => alert('Заявка принята! Инженер свяжется с вами в течение 15 минут (демо-заглушка).')}
+              onClick={handleCallEngineerClick}
             >
               📞 Вызвать инженера на осмотр
             </button>

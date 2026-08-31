@@ -16,6 +16,7 @@ class TariffViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Tariff.objects.filter(is_active=True)
     serializer_class = TariffSerializer
     permission_classes = [AllowAny]
+    pagination_class = None  # <-- ДОБАВЬТЕ ЭТУ СТРОКУ
 
 # 2. API: POST /api/calculator/calculate/
 class CalculatePriceAPIView(APIView):
