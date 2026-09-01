@@ -181,6 +181,11 @@ import Cabinet from './pages/Cabinet/Cabinet'; // Импортируем ком�
 import ConsentWizard from './pages/Documents/ConsentWizard';
 import RequestMeetingPage from './pages/Cabinet/RequestMeetingPage';
 import OrderSuccessPage from './pages/Cabinet/OrderSuccessPage';
+import ExpertCabinet from './pages/Cabinet/ExpertCabinet';
+
+
+
+
 
 function App() {
   return (
@@ -197,7 +202,7 @@ function App() {
           <Route path="/documents/consent" element={<ConsentWizard />} />
           <Route path="/cabinet/request-meeting" element={<RequestMeetingPage />} />
           <Route path="/cabinet/order-success" element={<OrderSuccessPage />} />
-          
+          <Route path="/expert" element={<ExpertCabinet />} />
           {/* ИСПРАВЛЕНО: Теперь открывается реальная форма регистрации */}
           <Route path="/register" element={<RegisterPage />} />
           
