@@ -20,11 +20,14 @@ class Order(models.Model):
         related_name='orders',
         verbose_name="Клиент"
     )
+    
     property_object = models.ForeignKey(
-        PropertyObject, 
-        on_delete=models.CASCADE, 
-        related_name='orders',
-        verbose_name="Объект недвижимости"
+    PropertyObject, 
+    on_delete=models.CASCADE, 
+    related_name='orders',
+    blank=True,
+    null=True,
+    verbose_name="Объект недвижимости"
     )
     
     # Статус сделки

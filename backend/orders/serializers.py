@@ -1,8 +1,10 @@
 from rest_framework import serializers
 from .models import Order, Appointment
 from objects.serializers import PropertyObjectSerializer
-
+from objects.models import PropertyObject  # <-- ДОБАВЬТЕ ЭТУ СТРОКУ
 # ДОБАВЛЕНО: Сериализатор встреч, который искал Django
+
+
 class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
@@ -26,6 +28,12 @@ class OrderSerializer(serializers.ModelSerializer):
         ]
 
 class RequestMeetingSerializer(serializers.ModelSerializer):
+    property_object = serializers.PrimaryKeyRelatedField(
+        queryset=PropertyObject.objects.all(),
+        required=False,
+        allow_null=True
+    )
+
     class Meta:
         model = Order
         fields = ['property_object', 'estimated_price']

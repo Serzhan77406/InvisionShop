@@ -1,36 +1,26 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import AllowAny
 from .models import Step
 from .serializers import StepSerializer
 
 class StepViewSet(ModelViewSet):
     queryset = Step.objects.all()
     serializer_class = StepSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         user = self.request.user
-        
-        # Эксперты и админы видят шаги всех пользователей
-        if user.role in [user.Roles.EXPERT, user.Roles.ADMIN]:
-            return Step.objects.all()
+
+        # Если пользователь вошел в систему и у него есть роль
+        if user.is_authenticated:
+            user_role = getattr(user, 'role', 'client')
+            if user_role in ['expert', 'admin']:
+                return Step.objects.all()
             
-        # Обычные клиенты видят только свои шаги
-        return Step.objects.filter(user=user)
+            # Если у авторизованного пользователя есть шаги — отдаем их
+            user_steps = Step.objects.filter(user=user)
+            if user_steps.exists():
+                return user_steps
 
-    def perform_create(self, serializer):
-        # Ограничение: обычный клиент не может сам себе создавать шаги сделки
-        if self.request.user.role == self.request.user.Roles.CLIENT:
-            raise PermissionDenied("Клиенты не могут создавать шаги сделки.")
-            
-        # Нам нужно передать, какому именно пользователю эксперт создает этот шаг.
-        # Для этого в POST запросе эксперт пришлет client_id.
-        client_id = self.request.data.get('client_id')
-        if not client_id:
-            raise PermissionDenied("Необходимо указать client_id для привязки шага.")
-            
-        serializer.save(user_id=client_id)
-
-
-
+        # Если анонимный запрос или у юзера нет своих шагов — отдаем общее руководство (все шаги из базы)
+        return Step.objects.all()
