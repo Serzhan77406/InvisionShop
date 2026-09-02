@@ -1,7 +1,8 @@
+// src/pages/StepsList/StepsList.tsx
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../api';
-import './StepsList.css';
 
 interface Step {
   id: number;
@@ -9,7 +10,6 @@ interface Step {
   is_completed: boolean;
 }
 
-// Заготовки описаний для 7 шагов легализации пристройки
 const stepDescriptions: { [key: number]: string } = {
   1: "Сбор первичной документации и получение выписки из ЕГРН.",
   2: "Разработка архитектурного проекта пристройки и технического плана.",
@@ -27,50 +27,54 @@ export const StepsList: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.get<Step[]>('/steps/')
+    api.get('/steps/')
       .then((response) => {
-        // Сортируем шаги по ID, чтобы они шли по порядку от 1 до 7
-        const sortedSteps = response.data.sort((a, b) => a.id - b.id);
-        setSteps(sortedSteps);
+        let rawSteps: Step[] = [];
+
+        if (Array.isArray(response.data)) {
+          rawSteps = response.data;
+        } else if (response.data && Array.isArray(response.data.results)) {
+          rawSteps = response.data.results;
+        }
+
+        rawSteps.sort((a, b) => a.id - b.id);
+        setSteps(rawSteps);
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
-        setError('Не удалось загрузить шаги сделки. Проверьте авторизацию.');
+        console.error('Ошибка загрузки шагов:', err);
+        setError('Не удалось загрузить список шагов.');
         setLoading(false);
       });
   }, []);
 
-  if (loading) return <div className="loading-spinner">Загрузка этапов легализации...</div>;
-  if (error) return <div className="error-message-box">⚠️ {error}</div>;
+  if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Загрузка шагов...</div>;
+  if (error) return <div style={{ padding: '20px', color: 'red' }}>⚠️ {error}</div>;
 
   return (
-    <div className="steps-page">
+    <div className="steps-page" style={{ padding: '20px' }}>
       <h1 className="page-title">7 шагов узаконивания пристройки</h1>
       <p className="page-subtitle">Пройдите все этапы вместе с нашими экспертами для успешной регистрации объекта</p>
-      
-      <div className="steps-grid">
+
+      <div className="steps-grid" style={{ display: 'grid', gap: '15px', marginTop: '20px' }}>
         {steps.map((step, index) => {
-          const stepNumber = index + 1; // Порядковый номер шага для отображения
+          const stepNumber = index + 1;
+          const description = stepDescriptions[stepNumber] || "Индивидуальный этап юридического оформления.";
+
           return (
             <div 
               key={step.id} 
               className={`step-card ${step.is_completed ? 'completed' : 'in-progress'}`}
               onClick={() => navigate(`/steps/${step.id}`)}
+              style={{ cursor: 'pointer', border: '1px solid #ddd', padding: '15px', borderRadius: '8px', background: '#fff' }}
             >
-              <div className="step-header">
-                <span className="step-number">Шаг {stepNumber}</span>
-                <span className="step-status-badge">
-                  {step.is_completed ? '✅ Выполнен' : '⏳ В процессе'}
-                </span>
+              <div className="step-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <strong>Шаг {stepNumber}</strong>
+                <span>{step.is_completed ? '✅ Выполнен' : '⏳ В процессе'}</span>
               </div>
-              <h3 className="step-card-title">{step.title}</h3>
-              <p className="step-card-desc">
-                {stepDescriptions[stepNumber] || "Индивидуальный этап юридического оформления пристройки."}
-              </p>
-              <div className="step-card-footer">
-                <span className="btn-details">Подробнее &rarr;</span>
-              </div>
+              <h3 style={{ margin: '5px 0' }}>{step.title}</h3>
+              <p style={{ color: '#555' }}>{description}</p>
+              <span style={{ color: '#0066cc', display: 'inline-block', marginTop: '10px' }}>Подробнее &rarr;</span>
             </div>
           );
         })}

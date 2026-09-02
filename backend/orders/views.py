@@ -10,6 +10,11 @@ from reportlab.lib.pagesizes import letter
 from .models import Order, Appointment
 from .serializers import OrderSerializer, AppointmentSerializer, RequestMeetingSerializer
 from .permissions import IsExpertOrAdmin  # Импортируем наше новое правило защиты
+from rest_framework.permissions import IsAdminUser
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
@@ -141,3 +146,46 @@ class OrderViewSet(viewsets.ModelViewSet):
         
         buffer.seek(0)
         return FileResponse(buffer, as_attachment=True, filename=f'contract_{order.contract_number}.pdf')
+    # Вставьте этот код в самый конец класса OrderViewSet:
+
+    # =========================================================================
+    # СТРОГО ПО ТЗ ШАГА 6.4: ЭНДПОИНТЫ ДЛЯ АДМИНИСТРАТОРА (ADMIN)
+    # =========================================================================
+
+    # API: POST /api/orders/orders/{id}/assign-expert/ — назначить инженера к сделке
+    @action(detail=True, methods=['post'], url_path='assign-expert', permission_classes=[IsAdminUser])
+    def assign_expert(self, request, pk=None):
+        order = self.get_object()
+        expert_id = request.data.get('expert_id')
+
+        if not expert_id:
+            return Response(
+                {"error": "Необходимо указать 'expert_id' в теле запроса."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            expert = User.objects.get(id=expert_id)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "Инженер с указанным ID не найден в системе."}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Защитная проверка: нельзя назначить инженером обычного клиента
+        if expert.role != User.Roles.EXPERT:
+            return Response(
+                {"error": "Указанный пользователь не обладает ролью 'expert'."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Привязываем инженера и автоматически переводим сделку в статус "Встреча назначена"
+        order.assigned_expert = expert
+        order.status = Order.Statuses.MEETING_SCHEDULED
+        order.save()
+
+        return Response({
+            "message": f"Инженер {expert.username} успешно назначен на заказ №{order.id}.",
+            "status": order.status,
+            "status_display": order.get_status_display()
+        }, status=status.HTTP_200_OK)

@@ -1,14 +1,5 @@
-// import React from 'react';
-// import Book from "../../components/Book/book.tsx";
+// src/pages/Home/home.tsx
 
-// export default function Home() {
-
-//     return (
-//         <div>
-//             <Book/>
-//         </div>
-//     );
-// }
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './home.css';
@@ -17,13 +8,11 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLearnHow = () => {
-    // Кнопка перенаправляет пользователя на страницу с 7 шагами
     navigate('/steps');
   };
 
   return (
     <div className="home-container">
-      {/* Главный блок (Hero Section) */}
       <section className="hero-section">
         <h1 className="hero-title">Узаконить пристройку к таунхаусу</h1>
         <p className="hero-subtitle">
@@ -35,7 +24,6 @@ export const Home: React.FC = () => {
         </button>
       </section>
 
-      {/* Краткое описание сервиса */}
       <section className="about-service-section">
         <h2 className="section-title">О нашем сервисе</h2>
         <div className="features-grid">

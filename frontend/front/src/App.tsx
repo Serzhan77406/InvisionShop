@@ -166,26 +166,21 @@
 
 import React from 'react';
 import { FAQPage, LegalPage } from './pages/Stubs/Stubs';
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout/Layout';
 import { Home } from './pages/Home/home';
 import { StepsList } from './pages/StepsList/StepsList';
 import { StepDetail } from './pages/StepDetail/StepDetail';
-// ИСПРАВЛЕНО: Убрали RegisterPage из заглушек
-import CalculatorPage from './pages/Calculator/CalculatorPage'; // Импортируем полноценный компонент
+import CalculatorPage from './pages/Calculator/CalculatorPage'; 
 import LoginPage from './pages/LoginPage/LoginPage';
-// ДОБАВЛЕНО: Импортируем вашу настоящую рабочую страницу регистрации
 import RegisterPage from './pages/RegisterPage/RegisterPage';
-import Cabinet from './pages/Cabinet/Cabinet'; // Импортируем компонент 
+import Cabinet from './pages/Cabinet/Cabinet'; 
 import ConsentWizard from './pages/Documents/ConsentWizard';
 import RequestMeetingPage from './pages/Cabinet/RequestMeetingPage';
 import OrderSuccessPage from './pages/Cabinet/OrderSuccessPage';
 import ExpertCabinet from './pages/Cabinet/ExpertCabinet';
-
-
-
-
+import OrderTrackerPage from './pages/Cabinet/OrderTrackerPage';
+import AdminCabinet from './pages/Cabinet/AdminCabinet';
 
 function App() {
   return (
@@ -203,19 +198,10 @@ function App() {
           <Route path="/cabinet/request-meeting" element={<RequestMeetingPage />} />
           <Route path="/cabinet/order-success" element={<OrderSuccessPage />} />
           <Route path="/expert" element={<ExpertCabinet />} />
-          {/* ИСПРАВЛЕНО: Теперь открывается реальная форма регистрации */}
           <Route path="/register" element={<RegisterPage />} />
-          
-          {/* ИСПРАВЛЕНО: Путь изменен на /login, чтобы совпадать с кнопкой из Header */}
+          <Route path="/cabinet/orders/:id" element={<OrderTrackerPage />} />
           <Route path="/login" element={<LoginPage />} />
-          
-          {/* ЗАГЛУШКА ДЛЯ СЛЕДУЮЩЕГО ШАГА: Личный кабинет */}
-          <Route path="/cabinet" element={
-            <main style={{ padding: "20px", textAlign: "center" }}>
-              <h1>Личный кабинет</h1>
-              <p>Добро пожаловать! Раздел в процессе привязки к ролям.</p>
-            </main>
-          } />
+          <Route path="/admin-panel" element={<AdminCabinet />} />
         </Routes>
       </Layout>
     </Router>
@@ -223,6 +209,3 @@ function App() {
 }
 
 export default App;
-
-
-

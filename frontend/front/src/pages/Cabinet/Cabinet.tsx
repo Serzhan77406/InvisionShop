@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '../../api'; // Используем настроенный Axios с токенами
 import './Cabinet.css';
 
 interface UserProfile {
   id: number;
   username: string;
   email: string;
-  role: 'client' | 'expert' | 'admin';
+  role: 'client' | 'expert' | 'admin' | string;
 }
 
 export default function Cabinet() {
@@ -17,27 +17,30 @@ export default function Cabinet() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Вытаскиваем access токен, который сохранился при логине
     const token = localStorage.getItem('access_token');
     
-    // Если токена нет — перенаправляем гостя на страницу входа
     if (!token) {
       navigate('/login');
       return;
     }
 
-    // Запрашиваем роль и данные текущего пользователя с бэкенда
-    axios.get('http://localhost:8001/api/accounts/auth/me/', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    // Запрос через api.ts (baseURL и Bearer token подставляются автоматически)
+    api.get<UserProfile>('/accounts/auth/me/')
       .then((response) => {
-        setUser(response.data);
+        const userData = response.data;
+        
+        // Приводим роль к нижнему регистру для стабильной работы условий
+        if (userData && userData.role) {
+          userData.role = userData.role.toLowerCase() as UserProfile['role'];
+        }
+
+        setUser(userData);
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error('Ошибка загрузки профиля:', err);
         setError('Сессия истекла. Войдите заново.');
-        localStorage.clear(); // Очищаем битые токены
+        localStorage.clear();
         setTimeout(() => navigate('/login'), 2000);
       });
   }, [navigate]);
@@ -46,20 +49,21 @@ export default function Cabinet() {
     return <div className="cabinet-loading">{error ? error : "Загрузка личного кабинета..."}</div>;
   }
 
+  // Приведённое значение роли для рендеринга условий
+  const normalizedRole = user?.role?.toLowerCase();
+
   return (
     <div className="cabinet-container">
       <header className="cabinet-header">
         <h1>Личный кабинет</h1>
         <div className="user-info-badge">
           <span>Пользователь: <strong>{user?.username}</strong></span>
-          <span className="role-tag">Роль: <strong>{user?.role}</strong></span>
+          <span className="role-tag">Роль: <strong>{user?.role?.toUpperCase()}</strong></span>
         </div>
       </header>
 
-      {/* РЕНДЕР ПО РОЛЯМ СОГЛАСНО ТЗ */}
-      
       {/* 1. ИНТЕРФЕЙС КЛИЕНТА */}
-      {user?.role === 'client' && (
+      {normalizedRole === 'client' && (
         <section className="cabinet-section client-section">
           <h2>Мои объекты</h2>
           <button 
@@ -76,21 +80,21 @@ export default function Cabinet() {
       )}
 
       {/* 2. ИНТЕРФЕЙС ИНЖЕНЕРА / ЭКСПЕРТА */}
-      {user?.role === 'expert' && (
+      {normalizedRole === 'expert' && (
         <section className="cabinet-section expert-section">
-          <h2>Кабинет инженера (скоро)</h2>
+          <h2>Кабинет инженера (эксперта РК)</h2>
           <p className="section-notice">
-            Здесь будет доступен список объектов недвижимости клиентов для проведения строительно-технической экспертизы и проверки документов.
+            Здесь доступен список объектов недвижимости клиентов для проведения строительно-технической экспертизы, проверки АПЗ, эскизных проектов и подготовки документации для ГАСК / ЦОН.
           </p>
         </section>
       )}
 
       {/* 3. ИНТЕРФЕЙС АДМИНИСТРАТОРА */}
-      {user?.role === 'admin' && (
+      {normalizedRole === 'admin' && (
         <section className="cabinet-section admin-section">
-          <h2>Админ-панель (скоро)</h2>
+          <h2>Панель администратора</h2>
           <p className="section-notice">
-            Консоль глобального управления пользователями, изменения ролей, модерации заявок и редактирования нормативно-правовой базы.
+            Консоль глобального управления пользователями, назначения ролей экспертов, модерации заявок и редактирования нормативно-правовой базы РК.
           </p>
         </section>
       )}
