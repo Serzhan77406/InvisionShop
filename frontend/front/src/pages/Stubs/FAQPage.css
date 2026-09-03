@@ -1,0 +1,144 @@
+.faq-page {
+  width: min(1000px, 94%);
+  margin: 50px auto;
+  padding-bottom: 60px;
+}
+
+.faq-card {
+  background: #ffffff;
+  border: 1px solid #e1e5ea;
+  border-radius: 20px;
+  padding: 45px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.04);
+}
+
+.faq-icon {
+  text-align: center;
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+
+.faq-card h1 {
+  margin: 0 0 15px;
+  text-align: center;
+  font-size: 36px;
+  color: #111827;
+}
+
+.faq-intro {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  text-align: center;
+  color: #667085;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.faq-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px 20px;
+  margin-bottom: 25px;
+  border: 1px solid #d0d5dd;
+  border-radius: 12px;
+  font-size: 17px;
+  outline: none;
+}
+
+.faq-search:focus {
+  border-color: #087cf7;
+  box-shadow: 0 0 0 3px rgba(8, 124, 247, 0.1);
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  border: 1px solid #e1e5ea;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.faq-item-open {
+  border-color: #b9d8fb;
+}
+
+.faq-question {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  color: #1d2939;
+}
+
+.faq-question:hover {
+  background: #f8fbff;
+}
+
+.faq-arrow {
+  min-width: 25px;
+  font-size: 24px;
+  color: #087cf7;
+  text-align: center;
+}
+
+.faq-answer {
+  padding: 0 20px 20px;
+  color: #667085;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+.faq-empty {
+  padding: 30px;
+  text-align: center;
+  background: #f8fafc;
+  border-radius: 12px;
+  color: #667085;
+}
+
+.faq-empty strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #1d2939;
+  font-size: 18px;
+}
+
+.faq-empty p {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .faq-page {
+    margin-top: 25px;
+  }
+
+  .faq-card {
+    padding: 25px 18px;
+  }
+
+  .faq-card h1 {
+    font-size: 28px;
+  }
+
+  .faq-intro {
+    font-size: 16px;
+  }
+
+  .faq-question {
+    padding: 17px;
+    font-size: 16px;
+  }
+}

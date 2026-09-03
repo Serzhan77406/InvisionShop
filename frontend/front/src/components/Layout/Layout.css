@@ -86,7 +86,14 @@
 .username-badge {
   font-weight: 600;
   color: #495057;
+  text-decoration: none;
+  cursor: pointer;
 }
+
+.username-badge:hover {
+  color: #007bff;
+}
+
 
 .btn-logout {
   background: none;

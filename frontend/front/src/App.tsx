@@ -166,7 +166,8 @@
 
 import React from 'react';
 import { FAQPage, LegalPage } from './pages/Stubs/Stubs';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext'; // <-- ДОБАВЬТЕ ИМПОРТ
 import { Layout } from './components/Layout/Layout';
 import { Home } from './pages/Home/home';
 import { StepsList } from './pages/StepsList/StepsList';
@@ -184,27 +185,30 @@ import AdminCabinet from './pages/Cabinet/AdminCabinet';
 
 function App() {
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/steps" element={<StepsList />} />
-          <Route path="/steps/:id" element={<StepDetail />} />
-          <Route path="/calculator" element={<CalculatorPage />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/laws" element={<LegalPage />} />
-          <Route path="/cabinet" element={<Cabinet />} />
-          <Route path="/documents/consent" element={<ConsentWizard />} />
-          <Route path="/cabinet/request-meeting" element={<RequestMeetingPage />} />
-          <Route path="/cabinet/order-success" element={<OrderSuccessPage />} />
-          <Route path="/expert" element={<ExpertCabinet />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/cabinet/orders/:id" element={<OrderTrackerPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/admin-panel" element={<AdminCabinet />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <AuthProvider> {/* <-- ОБОРАЧИВАЕМ ТУТ */}
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/steps" element={<StepsList />} />
+            <Route path="/steps/:id" element={<StepDetail />} />
+            <Route path="/calculator" element={<CalculatorPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/laws" element={<LegalPage />} />
+            <Route path="/cabinet" element={<Cabinet />} />
+            <Route path="/profile" element={<Navigate to="/cabinet" replace />} />
+            <Route path="/documents/consent" element={<ConsentWizard />} />
+            <Route path="/cabinet/request-meeting" element={<RequestMeetingPage />} />
+            <Route path="/cabinet/order-success" element={<OrderSuccessPage />} />
+            <Route path="/expert" element={<ExpertCabinet />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/cabinet/orders/:id" element={<OrderTrackerPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/admin-panel" element={<AdminCabinet />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </AuthProvider>
   );
 }
 
