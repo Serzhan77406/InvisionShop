@@ -5,13 +5,12 @@ interface User {
   id: number;
   username: string;
   email: string;
-  role: 'client' | 'expert' | 'admin';
+  role: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  loading: boolean;
-  login: (accessToken: string, refreshToken: string, userData: User) => void;
+  login: (access: string, refresh: string) => void;
   logout: () => void;
 }
 
@@ -19,36 +18,45 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+
+  // Функция загрузки данных профиля с бэкенда
+  const fetchUser = async () => {
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    try {
+      const response = await axios.get('http://localhost:8001/api/accounts/auth/me/', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUser(response.data);
+    } catch (error) {
+      console.error('Ошибка загрузки профиля:', error);
+      // Если токен невалиден — очищаем
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      setUser(null);
+    }
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      axios.get('http://localhost:8001/api/accounts/auth/me/', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-        .then(res => setUser(res.data))
-        .catch(() => localStorage.clear())
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
+    fetchUser();
   }, []);
 
-  const login = (accessToken: string, refreshToken: string, userData: User) => {
-    localStorage.setItem('access_token', accessToken);
-    localStorage.setItem('refresh_token', refreshToken);
-    setUser(userData);
+  const login = (access: string, refresh: string) => {
+    localStorage.setItem('access_token', access);
+    localStorage.setItem('refresh_token', refresh);
+    fetchUser(); // Перезапрашиваем юзера сразу после входа
   };
 
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     setUser(null);
-    window.location.href = '/';
+    window.location.href = '/login';
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -56,6 +64,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within an AuthProvider');
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
   return context;
 };

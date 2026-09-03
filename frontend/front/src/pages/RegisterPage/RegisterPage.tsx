@@ -45,15 +45,24 @@ export default function RegisterPage() {
       if (response.data.access && response.data.refresh) {
         saveTokens(response.data.access, response.data.refresh);
       }
-      
+
       // ИСПРАВЛЕНО: Перенаправляем на логин по условию Шага 2.3
       navigate("/login");
     } catch (err: any) {
       if (axios.isAxiosError(err) && err.response?.data) {
         const serverErrors = err.response.data;
-        setError(serverErrors.username ? `Имя пользователя: ${serverErrors.username}` : "Не удалось зарегистрироваться. Проверь данные.");
+
+        // Преобразуем объект ошибок в понятный текст
+        if (typeof serverErrors === 'object') {
+          const errorMessages = Object.entries(serverErrors)
+            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(', ') : msgs}`)
+            .join(' | ');
+          setError(errorMessages);
+        } else {
+          setError("Ошибка регистрации. Проверьте введенные данные.");
+        }
       } else {
-        setError("Не удалось зарегистрироваться. Проверь данные.");
+        setError("Не удалось связаться с сервером.");
       }
     }
   }
@@ -102,7 +111,7 @@ export default function RegisterPage() {
             required
           />
         </div>
-        <button 
+        <button
           type="submit"
           style={{ width: "100%", padding: "12px", backgroundColor: "#28a745", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer", fontWeight: "bold" }}
         >
