@@ -70,7 +70,7 @@ export default function Cabinet() {
             className="btn-create-property" 
             onClick={() => alert('Форма создания карточки таунхауса в разработке')}
           >
-            ➕ Создать карточку таунхауса
+            ➕ Создать карточку таунхауса или техническое задание утвержденной по форме СНИПа
           </button>
           
           <div className="objects-empty-state">
