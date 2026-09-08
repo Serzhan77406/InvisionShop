@@ -14,7 +14,7 @@ export const Home: React.FC = () => {
   return (
     <div className="home-container">
       <section className="hero-section">
-        <h1 className="hero-title">Узаконить пристройку к таунхаусу</h1>
+        <h1 className="hero-title">Узаконение пристройки к таунхаусу</h1>
         <p className="hero-subtitle">
           Профессиональный онлайн-сервис для быстрой и легальной регистрации изменений 
           в планировке, террас и пристроек любой сложности.
