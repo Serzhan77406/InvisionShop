@@ -205,7 +205,7 @@ function App() {
             <Route path="/cabinet/orders/:id" element={<OrderTrackerPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/admin-panel" element={<AdminCabinet />} />
-          </Routes>
+           </Routes>
         </Layout>
       </Router>
     </AuthProvider>

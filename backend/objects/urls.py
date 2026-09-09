@@ -1,12 +1,27 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import PropertyObjectViewSet
 
-# Создаем роутер и регистрируем наш ViewSet
+from .views import (
+    PropertyObjectViewSet,
+    ProjectAssignmentViewSet,
+)
+
+
 router = DefaultRouter()
-router.register(r'objects', PropertyObjectViewSet, basename='propertyobject')
+
+router.register(
+    r'objects',
+    PropertyObjectViewSet,
+    basename='propertyobject'
+)
+
+router.register(
+    r'project-assignments',
+    ProjectAssignmentViewSet,
+    basename='projectassignment'
+)
+
 
 urlpatterns = [
-    # Все эндпоинты (список, создание, удаление) подключаются одной строкой
     path('', include(router.urls)),
 ]
