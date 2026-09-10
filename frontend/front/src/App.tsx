@@ -182,6 +182,8 @@ import OrderSuccessPage from './pages/Cabinet/OrderSuccessPage';
 import ExpertCabinet from './pages/Cabinet/ExpertCabinet';
 import OrderTrackerPage from './pages/Cabinet/OrderTrackerPage';
 import AdminCabinet from './pages/Cabinet/AdminCabinet';
+import TechnicalAssignment from './pages/TechnicalAssignment/TechnicalAssignment';
+
 
 function App() {
   return (
@@ -196,6 +198,7 @@ function App() {
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/laws" element={<LegalPage />} />
             <Route path="/cabinet" element={<Cabinet />} />
+            <Route path="/technical-assignment" element={<TechnicalAssignment />} /> 
             <Route path="/profile" element={<Navigate to="/cabinet" replace />} />
             <Route path="/documents/consent" element={<ConsentWizard />} />
             <Route path="/cabinet/request-meeting" element={<RequestMeetingPage />} />
@@ -205,7 +208,8 @@ function App() {
             <Route path="/cabinet/orders/:id" element={<OrderTrackerPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/admin-panel" element={<AdminCabinet />} />
-           </Routes>
+            
+          </Routes>
         </Layout>
       </Router>
     </AuthProvider>
