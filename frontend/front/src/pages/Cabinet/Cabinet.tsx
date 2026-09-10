@@ -268,9 +268,8 @@ export default function Cabinet() {
           <button
             className="btn-create-property"
             onClick={() =>
-              alert(
-                'Форма создания карточки таунхауса в разработке'
-              )
+              navigate('/technical-assignment')          
+              
             }
           >
             ➕ Создать карточку таунхауса или

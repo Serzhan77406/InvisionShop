@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -36,7 +37,10 @@ export default function AdminCabinet() {
 
   const token = localStorage.getItem('access_token');
 
-  // Доступные статусы заявки
+  // ============================================================
+  // СТАТУСЫ ЗАЯВОК
+  // ============================================================
+
   const statusChoices = [
     { value: 'draft', label: 'Черновик' },
     { value: 'meeting_requested', label: 'Запрошена встреча' },
@@ -46,14 +50,20 @@ export default function AdminCabinet() {
     { value: 'completed', label: 'Завершено' },
   ];
 
-  // Доступные роли пользователей
+  // ============================================================
+  // РОЛИ ПОЛЬЗОВАТЕЛЕЙ
+  // ============================================================
+
   const roleChoices = [
     { value: 'client', label: 'Клиент' },
     { value: 'expert', label: 'Инженер' },
     { value: 'admin', label: 'Администратор' },
   ];
 
-  // Загружаем заявки и пользователей
+  // ============================================================
+  // ЗАГРУЗКА ЗАЯВОК И ПОЛЬЗОВАТЕЛЕЙ
+  // ============================================================
+
   useEffect(() => {
     if (!token) {
       navigate('/login');
@@ -65,8 +75,9 @@ export default function AdminCabinet() {
     };
 
     Promise.all([
+      
       axios.get(
-        'http://localhost:8001/api/orders/orders/',
+        'http://localhost:8001/api/orders/',
         { headers }
       ),
 
@@ -76,37 +87,64 @@ export default function AdminCabinet() {
       ),
     ])
       .then(([resOrders, resUsers]) => {
+        console.log('Получены заявки:', resOrders.data);
+        console.log('Получены пользователи:', resUsers.data);
+
         setOrders(resOrders.data);
         setUsers(resUsers.data);
         setLoading(false);
       })
       .catch((err) => {
-        console.error('Ошибка загрузки панели администратора:', err);
+        console.error(
+          'Ошибка загрузки панели администратора:',
+          err
+        );
 
         if (err.response?.status === 401) {
-          alert('Сессия истекла. Выполните вход повторно.');
+          alert(
+            'Сессия истекла. Выполните вход повторно.'
+          );
+
           localStorage.removeItem('access_token');
           navigate('/login');
           return;
         }
 
         if (err.response?.status === 403) {
-          alert('Доступ запрещен. Вы не являетесь администратором.');
+          alert(
+            'Доступ запрещен. Вы не являетесь администратором.'
+          );
+
           navigate('/cabinet');
           return;
         }
 
-        alert('Не удалось загрузить данные панели администратора.');
+        if (err.response?.status === 404) {
+          console.error(
+            'API заявок не найден. Проверьте URL /api/orders/'
+          );
+        }
+
+        alert(
+          'Не удалось загрузить данные панели администратора.'
+        );
+
         setLoading(false);
       });
   }, [token, navigate]);
 
-  // Получаем только инженеров
+  // ============================================================
+  // ПОЛУЧАЕМ ИНЖЕНЕРОВ
+  // ============================================================
+
   const experts = users.filter(
     (user) => user.role === 'expert'
   );
 
-  // Изменение статуса заявки
+  // ============================================================
+  // ИЗМЕНЕНИЕ СТАТУСА ЗАЯВКИ
+  // ============================================================
+
   const handleStatusChange = async (
     orderId: number,
     newStatus: string
@@ -117,7 +155,7 @@ export default function AdminCabinet() {
 
     try {
       await axios.patch(
-        `http://localhost:8001/api/orders/orders/${orderId}/`,
+        `http://localhost:8001/api/orders/${orderId}/`,
         {
           status: newStatus,
         },
@@ -139,16 +177,27 @@ export default function AdminCabinet() {
         )
       );
 
-      alert('Статус заявки успешно изменен!');
+      alert(
+        'Статус заявки успешно изменен!'
+      );
     } catch (err) {
-      console.error(err);
-      alert('Ошибка при изменении статуса.');
+      console.error(
+        'Ошибка изменения статуса:',
+        err
+      );
+
+      alert(
+        'Ошибка при изменении статуса.'
+      );
     } finally {
       setActionLoading(false);
     }
   };
 
-  // Назначение инженера на заявку
+  // ============================================================
+  // НАЗНАЧЕНИЕ ИНЖЕНЕРА
+  // ============================================================
+
   const handleAssignExpert = async (
     orderId: number,
     expertId: number
@@ -159,7 +208,7 @@ export default function AdminCabinet() {
 
     try {
       await axios.post(
-        `http://localhost:8001/api/orders/orders/${orderId}/assign-expert/`,
+        `http://localhost:8001/api/orders/${orderId}/assign-expert/`,
         {
           expert_id: expertId,
         },
@@ -181,22 +230,34 @@ export default function AdminCabinet() {
                 ...order,
                 assigned_expert:
                   selectedExpert?.username || null,
+                status:
+                  'meeting_scheduled',
               }
             : order
         )
       );
 
-      alert('Инженер успешно назначен на объект!');
+      alert(
+        'Инженер успешно назначен на объект!'
+      );
     } catch (err) {
-      console.error(err);
-      alert('Ошибка при назначении инженера.');
+      console.error(
+        'Ошибка назначения инженера:',
+        err
+      );
+
+      alert(
+        'Ошибка при назначении инженера.'
+      );
     } finally {
       setActionLoading(false);
     }
   };
 
-  // ⭐ НОВОЕ:
-  // Изменение роли пользователя
+  // ============================================================
+  // ИЗМЕНЕНИЕ РОЛИ ПОЛЬЗОВАТЕЛЯ
+  // ============================================================
+
   const handleRoleChange = async (
     userId: number,
     newRole: string
@@ -235,7 +296,10 @@ export default function AdminCabinet() {
         `Роль пользователя "${updatedUser.username}" изменена на "${updatedUser.role_display}".`
       );
     } catch (err: any) {
-      console.error(err);
+      console.error(
+        'Ошибка изменения роли:',
+        err
+      );
 
       const errorMessage =
         err.response?.data?.error ||
@@ -247,6 +311,10 @@ export default function AdminCabinet() {
     }
   };
 
+  // ============================================================
+  // ЗАГРУЗКА
+  // ============================================================
+
   if (loading) {
     return (
       <div className="admin-status">
@@ -255,8 +323,16 @@ export default function AdminCabinet() {
     );
   }
 
+  // ============================================================
+  // ИНТЕРФЕЙС
+  // ============================================================
+
   return (
     <div className="admin-cabinet-container">
+
+      {/* ======================================================
+          ЗАГОЛОВОК
+      ====================================================== */}
 
       <header className="admin-panel-header">
         <h1>
@@ -269,9 +345,9 @@ export default function AdminCabinet() {
       </header>
 
 
-      {/* ============================= */}
-      {/* УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ */}
-      {/* ============================= */}
+      {/* ======================================================
+          УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ
+      ====================================================== */}
 
       <section className="admin-users-section">
 
@@ -319,7 +395,8 @@ export default function AdminCabinet() {
                   </td>
 
                   <td>
-                    {user.role_display || user.role}
+                    {user.role_display ||
+                      user.role}
                   </td>
 
                   <td>
@@ -336,16 +413,18 @@ export default function AdminCabinet() {
                       className="admin-expert-select"
                     >
 
-                      {roleChoices.map((role) => (
+                      {roleChoices.map(
+                        (role) => (
 
-                        <option
-                          key={role.value}
-                          value={role.value}
-                        >
-                          {role.label}
-                        </option>
+                          <option
+                            key={role.value}
+                            value={role.value}
+                          >
+                            {role.label}
+                          </option>
 
-                      ))}
+                        )
+                      )}
 
                     </select>
 
@@ -364,9 +443,9 @@ export default function AdminCabinet() {
       </section>
 
 
-      {/* ============================= */}
-      {/* УПРАВЛЕНИЕ ЗАЯВКАМИ */}
-      {/* ============================= */}
+      {/* ======================================================
+          УПРАВЛЕНИЕ ЗАЯВКАМИ
+      ====================================================== */}
 
       <section className="admin-orders-section">
 
@@ -415,7 +494,8 @@ export default function AdminCabinet() {
                     </div>
 
                     <small className="table-cell-area">
-                      {order.property_object?.area || '0'} м²
+                      {order.property_object?.area ||
+                        '0'} м²
                     </small>
 
                   </td>
@@ -442,16 +522,18 @@ export default function AdminCabinet() {
                       className="admin-status-select"
                     >
 
-                      {statusChoices.map((choice) => (
+                      {statusChoices.map(
+                        (choice) => (
 
-                        <option
-                          key={choice.value}
-                          value={choice.value}
-                        >
-                          {choice.label}
-                        </option>
+                          <option
+                            key={choice.value}
+                            value={choice.value}
+                          >
+                            {choice.label}
+                          </option>
 
-                      ))}
+                        )
+                      )}
 
                     </select>
 
@@ -475,7 +557,8 @@ export default function AdminCabinet() {
                       }
                       disabled={
                         actionLoading ||
-                        order.status === 'completed' ||
+                        order.status ===
+                          'completed' ||
                         experts.length === 0
                       }
                       className="admin-expert-select"
@@ -485,33 +568,32 @@ export default function AdminCabinet() {
                         -- Выбрать инженера --
                       </option>
 
-                      {experts.map((expert) => (
+                      {experts.map(
+                        (expert) => (
 
-                        <option
-                          key={expert.id}
-                          value={expert.id}
-                        >
-                          {expert.username}
-                        </option>
+                          <option
+                            key={expert.id}
+                            value={expert.id}
+                          >
+                            {expert.username}
+                          </option>
 
-                      ))}
+                        )
+                      )}
 
                     </select>
 
                     {order.assigned_expert && (
-
                       <div className="assigned-status-text">
-                        ✓ Назначен: {order.assigned_expert}
+                        ✓ Назначен:{' '}
+                        {order.assigned_expert}
                       </div>
-
                     )}
 
                     {experts.length === 0 && (
-
                       <div className="assigned-status-text">
                         ⚠️ Нет активных инженеров
                       </div>
-
                     )}
 
                   </td>
@@ -525,11 +607,9 @@ export default function AdminCabinet() {
           </table>
 
           {orders.length === 0 && (
-
             <p className="no-orders-alert">
               В системе пока нет активных заявок от клиентов.
             </p>
-
           )}
 
         </div>
