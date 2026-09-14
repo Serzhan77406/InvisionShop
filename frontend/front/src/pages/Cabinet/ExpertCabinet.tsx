@@ -36,6 +36,47 @@ export default function ExpertCabinet() {
 
   const token = localStorage.getItem('access_token');
 
+  useEffect(() => {
+  if (!selectedOrderId || !token) {
+    return;
+  }
+
+  const loadSavedOrderData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8001/api/orders/${selectedOrderId}/report/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = response.data;
+
+      setFinalPrice(
+        data.final_price || ''
+      );
+
+      setContractNumber(
+        data.contract_number || ''
+      );
+
+      setReportNotes(
+        data.report_notes || ''
+      );
+
+    } catch (err) {
+      console.error(
+        'Ошибка загрузки сохранённых данных заявки:',
+        err
+      );
+    }
+  };
+
+  loadSavedOrderData();
+}, [selectedOrderId, token]);
+
   // ============================================================
   // ЗАГРУЗКА ЗАКАЗОВ И ВЫЕЗДОВ ИНЖЕНЕРА
   // ============================================================
@@ -135,10 +176,20 @@ export default function ExpertCabinet() {
       );
 
       window.location.reload();
-    } catch (err) {
-      console.error(err);
-      alert('Ошибка при сохранении отчета.');
-    }
+    } catch (err: any) {
+      console.error(
+        'Ошибка при сохранении отчёта:',
+       err
+     );
+
+  const errorMessage =
+    err.response?.data?.error ||
+    err.response?.data?.detail ||
+    err.response?.data?.message ||
+    'Ошибка при сохранении отчёта.';
+
+  alert(errorMessage);
+}
   };
 
   // ============================================================

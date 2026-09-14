@@ -72,7 +72,15 @@ class Order(models.Model):
     )
     
     # Интеграция с 7 шагами легализации
-    current_step = models.IntegerField(default=1, verbose_name="Текущий шаг выполнения")
+    current_step = models.IntegerField(
+        default=1,
+        verbose_name="Текущий шаг выполнения"
+    )
+
+    requested_step = models.IntegerField(
+        default=7,
+        verbose_name="Запрошенный клиентом этап"
+    )
     
     # Временные метки
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
