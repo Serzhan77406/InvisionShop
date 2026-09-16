@@ -30,7 +30,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
           {/* ЛОГОТИП */}
           <Link to="/" className="logo">
-            Light <span>House</span>
+            Lighthouse
           </Link>
 
           {/* ОСНОВНОЕ МЕНЮ */}
@@ -87,13 +87,13 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="footer-container">
 
           <p className="copyright">
-            © {new Date().getFullYear()} Light House.
+            © {new Date().getFullYear()} Lighthouse.
             Все права защищены.
           </p>
 
           <div className="footer-contacts">
-            <span>📞 Поддержка: +7 (999) 123-45-67</span>
-            <span>✉️ Email: info@lighthouse.kz</span>
+            <span>📞 Поддержка: +7 (701) 733-39-11</span>
+            <span>✉️ Email: yes.saule@yandex.ru</span>
           </div>
 
         </div>
